@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: edusaas
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d edusaas"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      target: builder
+    command: npm run start:dev
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/edusaas
+      JWT_SECRET: dev_secret_change_in_production_must_be_32_chars
+      JWT_REFRESH_SECRET: dev_refresh_secret_change_in_production_32c
+      JWT_CONTEXT_SECRET: dev_context_secret_change_in_prod_32c
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      JWT_CONTEXT_EXPIRES_IN: 5m
+      PORT: 3000
+      NODE_ENV: development
+      FRONTEND_URL: http://localhost:5173
+      STORAGE_PROVIDER: local
+      SEED_SUPER_ADMIN_EMAIL: admin@edusaas.com
+      SEED_SUPER_ADMIN_PASSWORD: Admin123456!
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./src:/app/src
+      - ./uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
