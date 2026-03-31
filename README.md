@@ -41,6 +41,8 @@ npm run start:dev
 
 La API queda disponible en `http://localhost:3000/api` y Swagger en `http://localhost:3000/docs`.
 
+El build productivo genera el entrypoint en `dist/src/main.js`.
+
 ## Docker
 
 El compose del backend vive ahora en [docker-compose.yml](/Users/jordysarmiento/Documents/school-saas/edusaas-backend/docker-compose.yml).
