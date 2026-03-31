@@ -291,9 +291,9 @@ export class ReportsService {
       const doc = new PDFDocument({ size: 'A4', margin: 40 });
       const chunks: Buffer[] = [];
 
-      doc.on('data', (chunk: Buffer | Uint8Array) =>
-        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
-      );
+      doc.on('data', (chunk: Buffer | Uint8Array) => {
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+      });
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
@@ -719,9 +719,9 @@ export class ReportsService {
       });
       const chunks: Buffer[] = [];
 
-      doc.on('data', (chunk: Buffer | Uint8Array) =>
-        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
-      );
+      doc.on('data', (chunk: Buffer | Uint8Array) => {
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+      });
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
