@@ -31,6 +31,7 @@ import {
 } from './repositories';
 
 type ExportRow = Record<string, string | number | boolean | null>;
+type PdfDocumentInstance = InstanceType<typeof PDFDocument>;
 
 @Injectable()
 export class ReportsService {
@@ -730,7 +731,7 @@ export class ReportsService {
   }
 
   private renderGradesControlPdf(
-    doc: PDFKit.PDFDocument,
+    doc: PdfDocumentInstance,
     input: {
       schoolName: string;
       logoBuffer: Buffer | null;
@@ -935,7 +936,7 @@ export class ReportsService {
   }
 
   private renderStudentReportCardPdf(
-    doc: PDFKit.PDFDocument,
+    doc: PdfDocumentInstance,
     input: {
       schoolName: string;
       logoBuffer: Buffer | null;
