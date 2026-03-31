@@ -22,6 +22,9 @@ declare module 'pdfkit' {
 
     constructor(options?: unknown);
 
+    on(event: 'data', listener: (chunk: Buffer | Uint8Array) => void): this;
+    on(event: 'end', listener: () => void): this;
+    on(event: 'error', listener: (error: Error) => void): this;
     on(event: string, listener: (...args: unknown[]) => void): this;
     end(): void;
     addPage(): this;
