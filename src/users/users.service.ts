@@ -3,10 +3,8 @@ import {
   Inject,
   Injectable,
   NotFoundException,
-  OnModuleInit,
   forwardRef
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { In } from 'typeorm';
 import { ClassesService } from '../classes/classes.service';
@@ -37,7 +35,7 @@ import {
 } from './repositories';
 
 @Injectable()
-export class UsersService implements OnModuleInit {
+export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly parentStudentLinksRepository: ParentStudentLinksRepository,
@@ -46,37 +44,8 @@ export class UsersService implements OnModuleInit {
     private readonly schoolInvitationsRepository: SchoolInvitationsRepository,
     @Inject(forwardRef(() => ClassesService))
     private readonly classesService: ClassesService,
-    private readonly configService: ConfigService,
     private readonly storageService: StorageService
   ) {}
-
-  async onModuleInit(): Promise<void> {
-    if (process.env.NODE_ENV === 'production') {
-      return;
-    }
-
-    const adminEmail = this.configService.get<string>('SEED_SUPER_ADMIN_EMAIL')!;
-    const adminPassword = this.configService.get<string>('SEED_SUPER_ADMIN_PASSWORD')!;
-    const existing = await this.usersRepository.findOne({ where: { email: adminEmail } });
-
-    if (existing) {
-      return;
-    }
-
-    const passwordHash = await bcrypt.hash(adminPassword, 12);
-    const superAdmin = this.usersRepository.create({
-      schoolId: null,
-      firstName: 'Super',
-      lastName: 'Admin',
-      email: adminEmail,
-      passwordHash,
-      role: Role.SUPER_ADMIN,
-      isActive: true,
-      refreshTokenHash: null
-    });
-
-    await this.usersRepository.save(superAdmin);
-  }
 
   async createUser(dto: CreateUserDto, schoolId: string | null = dto.schoolId ?? null): Promise<User> {
     const user = await this.createGlobalUser({

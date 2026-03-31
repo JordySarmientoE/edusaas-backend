@@ -64,6 +64,18 @@ npm test -- --runInBand
 npm run test:coverage
 ```
 
+## Migraciones
+
+Comandos utiles:
+
+```bash
+npm run migration:generate
+npm run migration:run
+npm run migration:revert
+```
+
+En produccion el arranque usa migraciones antes de levantar la app.
+
 ## Deploy Recomendado
 
 Para demos:
@@ -93,8 +105,6 @@ STORAGE_PROVIDER=cloudinary
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
-SEED_SUPER_ADMIN_EMAIL=admin@tudominio.com
-SEED_SUPER_ADMIN_PASSWORD=...
 ```
 
 Health check:
@@ -112,13 +122,20 @@ La app ya queda lista para desplegarse en Render con [render.yaml](/Users/jordys
 Variables minimas:
 
 - `DATABASE_URL`
-- `DATABASE_SSL=true`
-- `DATABASE_SSL_REJECT_UNAUTHORIZED=true`
+- `DATABASE_SSL=false`
+- `DATABASE_SSL_REJECT_UNAUTHORIZED=false`
 - `FRONTEND_URL`
 - `JWT_SECRET`
 - `JWT_REFRESH_SECRET`
 - `JWT_CONTEXT_SECRET`
 - `STORAGE_PROVIDER=cloudinary`
+
+Primera puesta en marcha:
+
+```bash
+npm run migration:run
+npm run seed:super-admin -- --email=admin@tudominio.com --password=TuPasswordSegura
+```
 
 ## EC2
 

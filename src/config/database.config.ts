@@ -10,5 +10,5 @@ export const databaseConfig = (): TypeOrmModuleOptions => ({
           rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false'
         }
       : false,
-  synchronize: process.env.NODE_ENV !== 'production'
+  synchronize: false
 });

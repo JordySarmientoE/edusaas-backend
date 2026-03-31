@@ -1,5 +1,4 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { ClassesService } from '../classes/classes.service';
@@ -95,18 +94,6 @@ describe('UsersService', () => {
           provide: ClassesService,
           useValue: {
             findById: jest.fn()
-          }
-        },
-        {
-          provide: ConfigService,
-          useValue: {
-            get: jest.fn((key: string) => {
-              const values: Record<string, string> = {
-                SEED_SUPER_ADMIN_EMAIL: 'admin@edusaas.com',
-                SEED_SUPER_ADMIN_PASSWORD: 'Admin123456!'
-              };
-              return values[key];
-            })
           }
         },
         {

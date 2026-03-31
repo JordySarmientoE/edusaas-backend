@@ -21,7 +21,5 @@ export const envValidationSchema = Joi.object({
   STORAGE_PROVIDER: Joi.string().valid('local', 'cloudinary').default('local'),
   CLOUDINARY_CLOUD_NAME: Joi.string().optional(),
   CLOUDINARY_API_KEY: Joi.string().optional(),
-  CLOUDINARY_API_SECRET: Joi.string().optional(),
-  SEED_SUPER_ADMIN_EMAIL: Joi.string().email().default('admin@edusaas.com'),
-  SEED_SUPER_ADMIN_PASSWORD: Joi.string().min(8).default('Admin123456!')
+  CLOUDINARY_API_SECRET: Joi.string().optional()
 });
